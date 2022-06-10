@@ -1,9 +1,10 @@
 from src.generator import Generator
+from src.reader import Reader
 import numpy as np
 import pygame
 from pygame import surfarray
 
-SIDE_LENGTH = 50
+SIDE_LENGTH = 10
 SCALE = int(700 / SIDE_LENGTH)
 
 maze_generator = Generator(SIDE_LENGTH, [0, 1])
@@ -39,3 +40,10 @@ while running:
             running = False
     surfarray.blit_array(screen, display_maze)
     pygame.display.flip()
+
+# maze_generator.save_maze()
+# print(maze_generator.get_maze_template())
+# reader = Reader()
+# print(reader.get_array())
+
+# print(maze_generator.get_maze_template() == reader.get_array())

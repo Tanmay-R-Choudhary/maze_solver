@@ -1,6 +1,6 @@
 import random
+import csv
 # import time
-from tkinter import LEFT
 import numpy as np
 
 # 0 is PATH and 1 is WALL
@@ -108,3 +108,12 @@ class Generator:
                 for wall in self.maze_template[next_cell[0]][next_cell[1]].wallsList:
                     if type(wall) != type(None):
                         walls.append([next_cell, wall])
+
+    def save_maze(self):
+        maze = self.get_maze_template()
+
+        with open("data.txt", 'w') as f:
+            csv_writer = csv.writer(
+                f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            for row in maze:
+                csv_writer.writerow(row)
