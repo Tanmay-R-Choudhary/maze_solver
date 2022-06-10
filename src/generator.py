@@ -30,13 +30,28 @@ class Generator:
 
         self.maze_template = []
 
-        for i in range(0, side_length - 1):
+        for i in range(0, side_length):
             self.maze_template.append([])
-            for j in range(0, side_length - 1):
+            for j in range(0, side_length):
                 self.maze_template[-1].append(Cell([i, j]))
 
     def get_maze_template(self):
-        return self.maze_template
+        array = []
+
+        for i in self.maze_template:
+            array.append([])
+            for element in i:
+                array[-1].append(element.value)
+
+        array.insert(0, [1] * len(self.maze_template))
+
+        for i in array:
+            i.append(1)
+
+        array[self.__entry_coordinates[1]][self.__entry_coordinates[0]] = 0
+        array[-2][-1] = 0
+
+        return np.array(array)
 
     def gen_maze(self):
         curr = self.__entry_coordinates
@@ -48,15 +63,16 @@ class Generator:
         self.maze_template[curr[0]][curr[1]].value = 0
 
         while walls:
-            for i in self.maze_template:
-                print([a.value for a in i])
+            # TO VISUALISE MAZE GENERATION
+            # for i in self.maze_template:
+            #     print([a.value for a in i])
 
-            print("\n")
-            time.sleep(0.25)
+            # print("\n")
+            # time.sleep(0.25)
 
             current_cell, w = walls.pop(
                 random.randint(0, len(walls) - 1))
-            next_cell = current_cell + w
+            next_cell = current_cell + 2 * w
             if (next_cell[0] >= 0 and next_cell[0] <= len(self.maze_template) - 1 and
                     next_cell[1] >= 0 and next_cell[1] <= len(self.maze_template) - 1 and
                     self.maze_template[next_cell[0]][next_cell[1]].value == 1):
@@ -68,21 +84,26 @@ class Generator:
                                        ][next_cell[1]].wallsList[0] = None
                     self.maze_template[next_cell[0]
                                        ][next_cell[1]].wallsList[2] = None
-                if (w == LEFT).all():
+                elif (w == LEFT).all():
                     self.maze_template[next_cell[0]
                                        ][next_cell[1]].wallsList[1] = None
                     self.maze_template[next_cell[0]
                                        ][next_cell[1]].wallsList[3] = None
-                if (w == DOWN).all():
+                elif (w == DOWN).all():
                     self.maze_template[next_cell[0]
                                        ][next_cell[1]].wallsList[2] = None
                     self.maze_template[next_cell[0]
                                        ][next_cell[1]].wallsList[0] = None
-                if (w == RIGHT).all():
+                elif (w == RIGHT).all():
                     self.maze_template[next_cell[0]
                                        ][next_cell[1]].wallsList[3] = None
                     self.maze_template[next_cell[0]
                                        ][next_cell[1]].wallsList[1] = None
+                else:
+                    pass
+
+                self.maze_template[next_cell[0] - w[0]
+                                   ][next_cell[1] - w[1]].value = 0
 
                 for wall in self.maze_template[next_cell[0]][next_cell[1]].wallsList:
                     if type(wall) != type(None):
