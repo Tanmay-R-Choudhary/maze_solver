@@ -1,5 +1,3 @@
-import dis
-from turtle import screensize
 from src.generator import Generator
 import numpy as np
 import pygame

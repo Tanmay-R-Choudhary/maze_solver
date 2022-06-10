@@ -1,5 +1,5 @@
 import random
-import time
+# import time
 from tkinter import LEFT
 import numpy as np
 
