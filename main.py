@@ -1,14 +1,17 @@
 from src.generator import Generator
-from src.reader import Reader
+# from src.reader import Reader
+from src.solver import MazeSolver
 import numpy as np
 import pygame
 from pygame import surfarray
 
-SIDE_LENGTH = 10
+SIDE_LENGTH = 20
 SCALE = int(700 / SIDE_LENGTH)
 
 maze_generator = Generator(SIDE_LENGTH, [0, 1])
 maze_generator.gen_maze()
+
+solver_obj = MazeSolver(maze_generator.get_maze_template())
 
 
 def convert_to_disp_image(maze_array, scale_factor):
@@ -33,6 +36,7 @@ pygame.display.flip()
 running = True
 
 display_maze = convert_to_disp_image(maze_generator.get_maze_template(), SCALE)
+# display_maze = convert_to_disp_image(solver_obj.get_maze(), SCALE)
 
 while running:
     for event in pygame.event.get():
