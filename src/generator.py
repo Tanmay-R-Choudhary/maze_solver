@@ -3,17 +3,17 @@ import csv
 # import time
 import numpy as np
 
-# 0 is PATH and 1 is WALL
+# 1 is PATH and 0 is WALL
 
-UP = np.array([-1, 0])          # 0
-LEFT = np.array([0, -1])        # 1
-DOWN = np.array([1, 0])         # 2
-RIGHT = np.array([0, 1])        # 3
+_UP = np.array([-1, 0])          # 0
+_LEFT = np.array([0, -1])        # 1
+_DOWN = np.array([1, 0])         # 2
+_RIGHT = np.array([0, 1])        # 3
 
 
-class Cell:
+class _Cell:
     def __init__(self, coordinates: list) -> None:
-        self.value = 1
+        self.value = 0
         self.coordinates = np.array(coordinates)
         self.wallsList = [
             np.array([-1, 0]),
@@ -33,7 +33,7 @@ class Generator:
         for i in range(0, side_length):
             self.maze_template.append([])
             for j in range(0, side_length):
-                self.maze_template[-1].append(Cell([i, j]))
+                self.maze_template[-1].append(_Cell([i, j]))
 
     def get_maze_template(self):
         array = []
@@ -43,13 +43,13 @@ class Generator:
             for element in i:
                 array[-1].append(element.value)
 
-        array.insert(0, [1] * len(self.maze_template))
+        array.insert(0, [0] * len(self.maze_template))
 
         for i in array:
-            i.append(1)
+            i.append(0)
 
-        array[self.__entry_coordinates[1]][self.__entry_coordinates[0]] = 0
-        array[-2][-1] = 0
+        array[self.__entry_coordinates[1]][self.__entry_coordinates[0]] = 1
+        array[-2][-1] = 1
 
         return np.array(array)
 
@@ -60,7 +60,7 @@ class Generator:
         for w in self.maze_template[curr[0]][curr[1]].wallsList:
             walls.append([curr, w])
 
-        self.maze_template[curr[0]][curr[1]].value = 0
+        self.maze_template[curr[0]][curr[1]].value = 1
 
         while walls:
             # TO VISUALISE MAZE GENERATION
@@ -70,31 +70,31 @@ class Generator:
             # print("\n")
             # time.sleep(0.25)
 
-            current_cell, w = walls.pop(
-                random.randint(0, len(walls) - 1))
+            current_cell, w = walls.pop(random.randint(0, len(walls) - 1))
+            
             next_cell = current_cell + 2 * w
             if (next_cell[0] >= 0 and next_cell[0] <= len(self.maze_template) - 1 and
                     next_cell[1] >= 0 and next_cell[1] <= len(self.maze_template) - 1 and
-                    self.maze_template[next_cell[0]][next_cell[1]].value == 1):
+                    self.maze_template[next_cell[0]][next_cell[1]].value == 0):
 
-                self.maze_template[next_cell[0]][next_cell[1]].value = 0
+                self.maze_template[next_cell[0]][next_cell[1]].value = 1
 
-                if (w == UP).all():
+                if (w == _UP).all():
                     self.maze_template[next_cell[0]
                                        ][next_cell[1]].wallsList[0] = None
                     self.maze_template[next_cell[0]
                                        ][next_cell[1]].wallsList[2] = None
-                elif (w == LEFT).all():
+                elif (w == _LEFT).all():
                     self.maze_template[next_cell[0]
                                        ][next_cell[1]].wallsList[1] = None
                     self.maze_template[next_cell[0]
                                        ][next_cell[1]].wallsList[3] = None
-                elif (w == DOWN).all():
+                elif (w == _DOWN).all():
                     self.maze_template[next_cell[0]
                                        ][next_cell[1]].wallsList[2] = None
                     self.maze_template[next_cell[0]
                                        ][next_cell[1]].wallsList[0] = None
-                elif (w == RIGHT).all():
+                elif (w == _RIGHT).all():
                     self.maze_template[next_cell[0]
                                        ][next_cell[1]].wallsList[3] = None
                     self.maze_template[next_cell[0]
@@ -103,7 +103,7 @@ class Generator:
                     pass
 
                 self.maze_template[next_cell[0] - w[0]
-                                   ][next_cell[1] - w[1]].value = 0
+                                   ][next_cell[1] - w[1]].value = 1
 
                 for wall in self.maze_template[next_cell[0]][next_cell[1]].wallsList:
                     if type(wall) != type(None):
