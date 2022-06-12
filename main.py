@@ -12,8 +12,7 @@ maze_generator = Generator(SIDE_LENGTH, [0, 1])
 maze_generator.gen_maze()
 
 solver_obj = MazeSolver(maze_generator.get_maze_template())
-idx = solver_obj.solve()
-
+solver_obj.solve()
 
 bg_color = (0, 0, 0)
 screen = pygame.display.set_mode(
