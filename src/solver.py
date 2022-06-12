@@ -1,5 +1,4 @@
 import numpy as np
-import time
 
 
 class _TreeNode:
@@ -50,8 +49,6 @@ class MazeSolver:
                 return None
 
             for dir in curr_node.dir:
-                # print(list(curr_node.coords + dir) in self.path_indices)
-                # print(self.path_indices[:5])
                 if tuple(curr_node.coords + dir) in self.path_indices:
                     next_node = self.maze_operation[(curr_node.coords + dir)[0], (curr_node.coords + dir)[1]]
 

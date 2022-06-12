@@ -14,17 +14,6 @@ maze_generator.gen_maze()
 solver_obj = MazeSolver(maze_generator.get_maze_template())
 idx = solver_obj.solve()
 
-# def convert_to_disp_image(maze_array, scale_factor):
-
-#     for i in range(0, len(maze_array)):
-#         for j in range(0, len(maze_array[i])):
-#             if maze_array[i][j] == 1:
-#                 maze_array[i][j] = 255
-
-#     maze_array = maze_array.T
-#     maze_array = np.repeat(maze_array[:, :, np.newaxis], 3, axis=2)
-#     return np.kron(maze_array, np.ones((scale_factor, scale_factor, 1)))
-
 
 bg_color = (0, 0, 0)
 screen = pygame.display.set_mode(
@@ -34,10 +23,6 @@ pygame.display.set_caption('Maze')
 screen.fill(bg_color)
 pygame.display.flip()
 running = True
-
-# display_maze = convert_to_disp_image(maze_generator.get_maze_template(), SCALE)
-
-# print(display_maze[:, :, 1])
 
 display_maze = solver_obj.get_disp_maze(SCALE)
 

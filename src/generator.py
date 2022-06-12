@@ -25,7 +25,6 @@ class _Cell:
 
 class Generator:
     def __init__(self, side_length: int, entry_coordinates: list) -> None:
-        # define the maze and entry_coordinates
         self.__entry_coordinates = np.array(entry_coordinates)
 
         self.maze_template = []
@@ -63,15 +62,9 @@ class Generator:
         self.maze_template[curr[0]][curr[1]].value = 1
 
         while walls:
-            # TO VISUALISE MAZE GENERATION
-            # for i in self.maze_template:
-            #     print([a.value for a in i])
-
-            # print("\n")
-            # time.sleep(0.25)
 
             current_cell, w = walls.pop(random.randint(0, len(walls) - 1))
-            
+
             next_cell = current_cell + 2 * w
             if (next_cell[0] >= 0 and next_cell[0] <= len(self.maze_template) - 1 and
                     next_cell[1] >= 0 and next_cell[1] <= len(self.maze_template) - 1 and
