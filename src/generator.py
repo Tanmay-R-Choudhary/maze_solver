@@ -51,6 +51,19 @@ class Generator:
         array[-2][-1] = 1
 
         return np.array(array)
+    
+    def get_disp_maze(self, scale_factor):
+        maze = self.get_maze_template()
+
+        for i in range(0, len(maze)):
+            for j in range(0, len(maze[i])):
+                if (maze[i][j] == 1).all():
+                    maze[i][j] = 255
+
+        maze = maze.T
+        maze = np.repeat(maze[:, :, np.newaxis], 3, axis=2)
+
+        return np.kron(maze, np.ones((scale_factor, scale_factor, 1)))
 
     def gen_maze(self):
         curr = self.__entry_coordinates
