@@ -4,7 +4,8 @@ from src.solver import MazeSolver
 from src.display import Display
 
 SIDE_LENGTH = 30 # increasing the number increases the complexity of the maze
-SCALE = int(700 / SIDE_LENGTH) # 700 OR 500 (the size of the pygame window) / side length of maze gives the scale factor by which the maze needs to scaled down. window size generated is not exactly 700/500
+SCALE = int(700 / SIDE_LENGTH) # 700 OR 500 (the size of the pygame window) / side length of maze gives the scale factor 
+                               # by which the maze needs to scaled down. window size generated is not exactly 700/500
                                # due to the casting operation
 
 maze_generator = Generator(SIDE_LENGTH, [0, 1])
